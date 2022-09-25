@@ -15,8 +15,8 @@ def Init():
     start_handler = CommandHandler('start', start)
     application.add_handler(start_handler)
     
-    inline_caps_handler = InlineQueryHandler(inline_caps)
-    application.add_handler(inline_caps_handler)
+    # inline_caps_handler = InlineQueryHandler(inline_caps)
+    # application.add_handler(inline_caps_handler)
         
     application.run_polling()
 
@@ -30,7 +30,7 @@ def Init():
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = update.effective_user.id
     controller.newgame(user_id)
-    await context.bot.send_message(chat_id=update.effective_user.id, text = controller.GetBoard(user_id), parse_mode= "html")    
+    await context.bot.send_message(chat_id=update.effective_user.id, text = controller.get_board(user_id), parse_mode= "html")    
 
 async def move(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = update.effective_user.id
@@ -38,7 +38,7 @@ async def move(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await context.bot.send_message(chat_id=update.effective_user.id, text = "Неверно....", parse_mode= "html")
         return
     
-    await context.bot.send_message(chat_id=update.effective_user.id, text = controller.GetBoard(user_id), parse_mode= "html")    
+    await context.bot.send_message(chat_id=update.effective_user.id, text = controller.get_board(user_id), parse_mode= "html")    
     
     if controller.check_win(user_id):
         await context.bot.send_message(chat_id=update.effective_user.id, text = "Поздравляю Вы выиграли....", parse_mode= "html")
@@ -55,16 +55,16 @@ async def move(update: Update, context: ContextTypes.DEFAULT_TYPE):
     
 async def draw(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = update.effective_user.id
-    await context.bot.send_message(chat_id=update.effective_user.id, text = controller.GetBoard(user_id), parse_mode= "html")
+    await context.bot.send_message(chat_id=update.effective_user.id, text = controller.get_board(user_id), parse_mode= "html")
   #Ваш ход 0(Х)
 
 
 
 
-# logging.basicConfig(
-#     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-#     level=logging.INFO
-# )
+logging.basicConfig(
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    level=logging.INFO
+)
 
 
 

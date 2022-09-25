@@ -7,16 +7,19 @@ import services
 def start():
     services.Init()
     
+def newgame(user_id : int):
+    model.newgame(user_id)
+    
 #Ход пользователя. True - корректный ход
 def human_move(user_id, user_input : str ) -> bool:
     None
     
 #Ход компьютера
-def computer_move():
+def computer_move(user_id):
     None
 
-def GetBoard(user_id):
-    None
+def get_board(user_id):
+    return model.get_board(user_id)
 
 #проверка на выигрышную ситуацию     
 def check_win(user_id) -> bool:
@@ -27,7 +30,7 @@ def check_nomovs(user_id) -> bool:
 
 #удаляем игру... из словаря
 def delete_game(user_id):
-    None
+    model.delete_game(user_id)
 
 #ПАриглашение ходить ("Вы 0(X). Ваш ход.")    
 def your_move(user_id) -> str:

@@ -23,15 +23,17 @@ def newgame(user_id : int):
 def ComputerMove(user_id : int):
     global boards
     sign = boards[user_id][1]
+    board = boards[user_id][0]
     while True:
         x =  random.randint(0, 2)
         y =  random.randint(0, 2)
-        if boards[user_id][0] [y] [x] == 0:
-                [user_id][0] [y] [x] = sign
-                # print(f"Ход компьютера: ({x}, {y}).")
+        if board[y][x] == 0:
+            board[y][x] = sign
+            return
+
 
 # строка отрисовки игровой доски
-def GetBoard(user_id : int):
+def get_board(user_id : int) -> str:
     global boards    
     board = boards[user_id][0]
     st = ""
@@ -74,6 +76,10 @@ def human_move(user_id : int, inp : str) -> bool:
                 return
         print("Ошибка! Попробуйте снова...")  
         
+
+def delete_game(user_id):
+    global boards
+    boards.pop(user_id, None)
 
 # newgame(1)
 # print(GetBoard(1))
