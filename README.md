@@ -14,6 +14,7 @@ __Участники:__
 <https://github.com/dia-zx/GBTeam2>
 - Михаил Мансуров - [controller.py](controller.py)
 - Анна Костылева - [services.py](services.py)
+<https://github.com/Koannko/Telegram_bot>
 
 ---
 ## Для запуска проекта необходимо:
