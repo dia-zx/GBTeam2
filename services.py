@@ -11,15 +11,14 @@ import controller
 import logging
 from telegram import Update
 from telegram.ext import ApplicationBuilder, ContextTypes, CommandHandler
-from telegram import InlineQueryResultArticle, InputTextMessageContent
-from telegram.ext import InlineQueryHandler
+# from telegram import InlineQueryResultArticle, InputTextMessageContent
+# from telegram.ext import InlineQueryHandler
 
 
-
-def Init(bot : list):
+def Init(bot: list):
     token = bot[1]
     app = ApplicationBuilder().token(token).build()
-        #'5665588710:AAF41tF61xNX7XKc-vmkvwfKswBbeGW62sw' #@kfh1567_bot
+    # '5665588710:AAF41tF61xNX7XKc-vmkvwfKswBbeGW62sw' #@kfh1567_bot
 
     start_handler = CommandHandler('start', start)
     move_handler = CommandHandler('move', move)
@@ -34,8 +33,6 @@ def Init(bot : list):
     app.run_polling()
 
 
-
-
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = update.effective_user.id
     controller.newgame(user_id)
@@ -44,44 +41,13 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def move(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = update.effective_user.id
-    user_input = context.args#[:-2]
-    if not controller.human_move(user_id, user_input):
-        st = """<b>Неверное значение!</b>
-        Поле занято или не существует. Чтобы продолжить введите '[номер столбца (0..2)] [номер строки (0..2)]'.
-        Например, /move 1 2        
-        """
-        await context.bot.send_message(chat_id=update.effective_user.id, text = st, parse_mode="html")
-        return
-
-    await context.bot.send_message(chat_id=update.effective_user.id, text=controller.get_board(user_id), parse_mode="html")
-    if not await check(user_id, context, person = 1):
-        return
-
-    controller.computer_move(user_id)
-    await context.bot.send_message(chat_id=update.effective_user.id, text=controller.get_board(user_id), parse_mode="html")    
-    if not await check(user_id, context, person = 2):
-        return
-
-
-async def check(user_id : int, context, person : int):
-    if controller.check_win(user_id):
-        if person == 1:
-            await context.bot.send_message(chat_id = user_id, text="Поздравляю! Вы выиграли! Сыграем еще раз? /start", parse_mode="html")
-        else:
-            await context.bot.send_message(chat_id = user_id, text="Вы проиграли. Сыграем еще раз? /start", parse_mode="html")
-        controller.delete_game(user_id)
-        return 0
-
-    if controller.check_nomovs(user_id):
-        await context.bot.send_message(chat_id = user_id, text="Ничья! Сыграем еще раз? /start", parse_mode="html")
-        controller.delete_game(user_id)
-        return 0
-    return 1
+    user_input = context.args  # [:-2]
+    await context.bot.send_message(chat_id=update.effective_user.id, text=controller.move(user_id, user_input), parse_mode="html")
 
 
 async def draw(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = update.effective_user.id
-    await context.bot.send_message(chat_id=update.effective_user.id, text=controller.get_board(user_id)+'\nВаш ход', parse_mode="html")
+    await context.bot.send_message(chat_id=update.effective_user.id, text=controller.get_board(user_id), parse_mode="html")
 
 
 async def help(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -94,7 +60,7 @@ async def help(update: Update, context: ContextTypes.DEFAULT_TYPE):
 <b>/move</b> - сделать ход.<b>Формат ввода</b>: 
     /move [номер столбца (0..2)] [номер строки (0..2)]
     Например: /move 1 2"""
-    await context.bot.send_message(chat_id=update.effective_user.id, text = st, parse_mode="html")
+    await context.bot.send_message(chat_id=update.effective_user.id, text=st, parse_mode="html")
 
 
 logging.basicConfig(
